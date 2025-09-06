@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 
 const WeatherApp = () => {
@@ -13,32 +14,31 @@ const WeatherApp = () => {
     setWeatherData(null);
 
     try {
-        const response = await fetch(
-          `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`
-        );
-      
-        if (!response.ok) {
-          throw new Error("Failed to fetch weather data");
-        }
-      
-        const data = await response.json();
-      
-        if (data.error) {
-          throw new Error(data.error.message);
-        }
-      
-        setWeatherData({
-          temp: data.current.temp_c,
-          humidity: data.current.humidity,
-          condition: data.current.condition.text,
-          wind: data.current.wind_kph,
-        });
-      } catch (error) {
-        alert("Failed to fetch weather data");
-      } finally {
-        setLoading(false);
+      const response = await fetch(
+        `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch weather data");
       }
-      
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error.message);
+      }
+
+      setWeatherData({
+        temp: data.current.temp_c,
+        humidity: data.current.humidity,
+        condition: data.current.condition.text,
+        wind: data.current.wind_kph,
+      });
+    } catch (error) {
+      alert("Failed to fetch weather data");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -50,14 +50,17 @@ const WeatherApp = () => {
           placeholder="Enter city name"
           value={city}
           onChange={(e) => setCity(e.target.value)}
+          data-testid="city-input"
         />
-        <button onClick={handleSearch}>Search</button>
+        <button onClick={handleSearch} data-testid="search-btn">
+          Search
+        </button>
       </div>
 
-      {loading && <p>Loading data…</p>}
+      {loading && <p data-testid="loading">Loading data…</p>}
 
       {weatherData && (
-        <div className="weather-cards">
+        <div className="weather-cards" data-testid="weather-cards">
           <div className="weather-card">Temperature: {weatherData.temp}°C</div>
           <div className="weather-card">Humidity: {weatherData.humidity}%</div>
           <div className="weather-card">Condition: {weatherData.condition}</div>
