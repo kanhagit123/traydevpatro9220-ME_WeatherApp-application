@@ -57,7 +57,8 @@ const WeatherApp = () => {
         </button>
       </div>
 
-      {loading && <p data-testid="loading">Loading data…</p>}
+      {loading && <p data-testid="loading">Loading data...</p>}
+
 
       {weatherData && (
         <div className="weather-cards" data-testid="weather-cards">
